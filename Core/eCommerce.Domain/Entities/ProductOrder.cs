@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace eCommerce.Domain.Entities
 {
-    public class ProductCategory
+    public class ProductOrder
     {
         public long ProductId { get; set; }
         public Product Product { get; set; }
-        public long CategoryId { get; set; }
-        public Category Category { get; set; }
+        public long OrderId { get; set; }
+        public Order Order { get; set; }
     }
 }

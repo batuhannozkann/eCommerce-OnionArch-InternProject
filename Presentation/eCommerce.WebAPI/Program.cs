@@ -1,4 +1,4 @@
-
+using eCommerce.Persistence;
 namespace eCommerce.WebAPI
 {
     public class Program
@@ -13,6 +13,7 @@ namespace eCommerce.WebAPI
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddPersistenceService();
 
             var app = builder.Build();
 

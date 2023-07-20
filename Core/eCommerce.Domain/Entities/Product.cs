@@ -9,11 +9,13 @@ namespace eCommerce.Domain.Entities
 {
     public class Product:BaseEntity
     {
-        public string Name { get; set; }
+        public string ProductName { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
         public int Stock { get; set; }
-        public ICollection<Category> Categories { get; set; }
+        public ICollection<LikedProduct> LikedProducts { get; set; }
+        public  ICollection<ProductOrder> ProductOrders { get; set; }
+        public ICollection<ProductCategory> ProductCategories { get; set; }
 
 
     }

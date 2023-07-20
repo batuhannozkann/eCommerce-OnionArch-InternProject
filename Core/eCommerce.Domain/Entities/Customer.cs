@@ -13,6 +13,7 @@ namespace eCommerce.Domain.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime BirthDate { get; set; }
+        public ICollection<LikedProduct> LikedProducts { get; set; }
         public ICollection<Order> Orders { get; set; }
         public ICollection<Address> Addresses { get; set; }
     }

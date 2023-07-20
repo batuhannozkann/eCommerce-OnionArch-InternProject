@@ -12,7 +12,7 @@ namespace eCommerce.Domain.Entities
         public DateTime OrderDate { get; set; }
         public decimal TotalPrice { get; set; }
         public int ProductCount { get; set; }
-        public ICollection<Product> Products { get; set; }
+        public ICollection<ProductOrder> ProductOrders { get; set; }
         public Customer Customer { get; set; }
         public Address Address { get; set; }
     }
