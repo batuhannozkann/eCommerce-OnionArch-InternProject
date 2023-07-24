@@ -1,4 +1,5 @@
-﻿using eCommerce.Domain.Entities.Common;
+﻿using eCommerce.Application.Repositories;
+using eCommerce.Domain.Entities.Common;
 using eCommerce.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace eCommerce.Persistence.Repositories.Generic
 {
-    public class BaseRepository<T>
+    public class BaseRepository<T>:IBaseRepository<T>
         where T:BaseEntity
     {
         private readonly eCommerceDbContext _context;
@@ -23,16 +24,17 @@ namespace eCommerce.Persistence.Repositories.Generic
         }
 
         private DbSet<T> Table => _context.Set<T>();
-        public IQueryable<T> GetAll(bool tracking = true)
-        => tracking ? Table.AsQueryable() : Table.AsQueryable().AsNoTracking();
-        public async Task<T> GetByIdAsync(long id, bool tracking = true)
-        => tracking ? await Table.FindAsync(id) : await Table.AsQueryable().AsNoTracking().FirstOrDefaultAsync(data => data.Id == id);
+        public IQueryable<T> GetAll()
+        => Table.AsQueryable();
+        //AsNoTrackingIdentityResolution 
+        public async Task<T> GetByIdAsync(long id)
+        => await Table.FindAsync(id);
 
-        public async Task<T> GetSingleAsync(Expression<Func<T, bool>> method, bool tracking = true)
-        => tracking ? await Table.FirstOrDefaultAsync(method) : await Table.AsQueryable().AsNoTracking().FirstOrDefaultAsync();
+        public async Task<T> GetSingleAsync(Expression<Func<T, bool>> method)
+        => await Table.FirstOrDefaultAsync(method);
 
-        public IQueryable<T> GetWhere(Expression<Func<T, bool>> method, bool tracking = true)
-        => tracking ? Table.AsQueryable().Where(method) : Table.AsQueryable().AsNoTracking().Where(method);
+        public IQueryable<T> GetWhere(Expression<Func<T, bool>> method)
+        => Table.AsQueryable().Where(method);
         public async Task<bool> AddAsync(T model)
         {
             EntityEntry<T> entityEntry = await Table.AddAsync(model);
@@ -47,7 +49,7 @@ namespace eCommerce.Persistence.Repositories.Generic
 
         public async Task<bool> Remove(long id)
         {
-            T model = await Table.FirstOrDefaultAsync(data => data.Id == id);
+            T model = await Table.FindAsync(id);
             Table.Remove(model);
             return true;
         }

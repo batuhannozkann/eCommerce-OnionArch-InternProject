@@ -9,7 +9,7 @@ namespace eCommerce.Domain.Entities
 {
     public class Category:BaseEntity
     {
-        public int CategoryName { get; set; }
+        public string Name { get; set; }
         public ICollection<ProductCategory> ProductCategories { get; set; }
     }
 }
