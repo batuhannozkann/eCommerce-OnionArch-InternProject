@@ -9,23 +9,19 @@ namespace eCommerce.Infrastructure.Utilities.Results
 {
     public class ErrorDataResult<T>:DataResult<T>
     {
-        public ErrorDataResult(T data, List<string> errors) : base(data, false)
+        public ErrorDataResult(List<string> errors,int statusCode) : base(false,statusCode)
         {
             Errors = errors;
         }
-        public ErrorDataResult(List<string> errors) : base(false)
-        {
-            Errors = errors;
-        }
-        public ErrorDataResult(T data, string message) : base(data, false, message)
+        public ErrorDataResult(T data, string message, int statusCode) : base(data, false, message, statusCode)
         {
 
         }
-        public ErrorDataResult(T data) : base(data, false)
+        public ErrorDataResult(T data, int statusCode) : base(data, false, statusCode)
         {
 
         }
-        public ErrorDataResult(string message) : base(false, message)
+        public ErrorDataResult(string message, int statusCode) : base(false, message, statusCode)
         {
 
         }

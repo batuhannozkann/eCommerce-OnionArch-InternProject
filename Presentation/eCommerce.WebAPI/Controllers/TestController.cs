@@ -27,16 +27,22 @@ namespace eCommerce.WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(ProductCreateDto product)
         {
-            var data = _productService.AddAsync(product);
+            var data = await _productService.AddAsync(product);
             await productRepository.SaveAsync();
             return Ok(data);
         }
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetAll()
         {
-            var Products = productRepository.GetAllAsNoTrackingWithIdentityResolution().ToList();
-            Console.WriteLine(options.Value.PostgreSql);
-            return Ok(new {Products,options.Value.PostgreSql });
+            var data = _productService.GetAll();
+            return Ok(data);
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> AddRange(List<ProductCreateDto> products)
+        {
+            var data = await _productService.AddRangeAsync(products);
+            return Ok(data);
         }
 
     }

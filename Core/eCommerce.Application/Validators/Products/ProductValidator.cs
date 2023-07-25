@@ -13,7 +13,7 @@ namespace eCommerce.Application.Validators.Products
     {
         public ProductValidator()
         {
-            RuleFor(x => x.Name).NotEmpty().NotNull().WithMessage("Product name can not be null or empty");
+            RuleFor(x => x.Name).NotEmpty().NotNull();
         }
     }
 }

@@ -13,12 +13,12 @@ namespace eCommerce.Application.Repositories
         Task<T> GetByIdAsync(long id);
         Task<T> GetSingleAsync(Expression<Func<T, bool>> method);
         IQueryable<T> GetWhere(Expression<Func<T, bool>> method);
-        Task<bool> AddAsync(T model);
-        Task<bool> AddRangeAsync(List<T> model);
-        Task<bool> Remove(long id);
-        bool Remove(T model);
-        bool RemoveRange(List<T> datas);
-        bool Update(T model);
+        Task<T> AddAsync(T model);
+        Task AddRangeAsync(List<T> model);
+        Task Remove(long id);
+         void Remove(T model);
+         void RemoveRange(List<T> datas);
+         void Update(T model);
         Task<int> SaveAsync();
 
     }

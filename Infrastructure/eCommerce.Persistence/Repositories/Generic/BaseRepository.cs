@@ -35,41 +35,40 @@ namespace eCommerce.Persistence.Repositories.Generic
 
         public IQueryable<T> GetWhere(Expression<Func<T, bool>> method)
         => Table.AsQueryable().Where(method);
-        public async Task<bool> AddAsync(T model)
+        public async Task<T> AddAsync(T model)
         {
-            EntityEntry<T> entityEntry = await Table.AddAsync(model);
-            return entityEntry.State == EntityState.Added;
+            await Table.AddAsync(model);
+            return model;
         }
 
-        public async Task<bool> AddRangeAsync(List<T> model)
+        public async Task AddRangeAsync(List<T> model)
         {
             await Table.AddRangeAsync(model);
-            return true;
         }
 
-        public async Task<bool> Remove(long id)
+        public async Task Remove(long id)
         {
             T model = await Table.FindAsync(id);
             Table.Remove(model);
-            return true;
+            
         }
 
-        public bool Remove(T model)
+        public void Remove(T model)
         {
             EntityEntry<T> entityEntry = Table.Remove(model);
-            return entityEntry.State == EntityState.Deleted;
+            
         }
 
-        public bool RemoveRange(List<T> datas)
+        public void RemoveRange(List<T> datas)
         {
             Table.RemoveRange(datas);
-            return true;
+            
         }
 
-        public bool Update(T model)
+        public void Update(T model)
         {
             EntityEntry<T> entityEntry = Table.Update(model);
-            return entityEntry.State == EntityState.Modified;
+            
         }
         public async Task<int> SaveAsync()
 

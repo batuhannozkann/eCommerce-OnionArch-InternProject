@@ -16,7 +16,8 @@ namespace eCommerce.Infrastructure.Filters
             if(!context.ModelState.IsValid)
             {
                 var errors = context.ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();
-                context.Result = new BadRequestObjectResult(new ErrorDataResult<List<string>>(errors));
+                context.Result = new BadRequestObjectResult(new ErrorDataResult<List<string>>(errors,400));
+                //Localization
             }
             await next();
         }

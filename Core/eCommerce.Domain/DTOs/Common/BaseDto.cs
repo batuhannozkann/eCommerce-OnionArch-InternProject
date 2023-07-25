@@ -8,6 +8,6 @@ namespace eCommerce.Domain.DTOs.Common
 {
     public class BaseDto
     {
-        public long Id { get; set; }
+        
     }
 }

@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace eCommerce.Domain.DTOs.Products
 {
-    public class ProductCreateDto : ProductDto
+    public class ProductCreateDto 
     {
+        public long Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
