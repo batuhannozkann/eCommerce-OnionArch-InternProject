@@ -26,9 +26,13 @@ namespace eCommerce.Persistence
         {
             services.AddDbContext<eCommerceDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("PostgreSql")));
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+            services.AddScoped(typeof(IBaseRepositoryNoTracking<>), typeof(BaseRepositoryNoTracking<>));
             services.AddScoped<IProductService, ProductService>();
             services.AddAutoMapper(typeof(MapProfile));
+            
             return services;
         }
     }

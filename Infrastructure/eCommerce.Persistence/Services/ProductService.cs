@@ -16,10 +16,10 @@ namespace eCommerce.Persistence.Services
 {
     public class ProductService : IProductService
     {
-        private IBaseRepository<Product> _productRepository;
+        private IProductRepository _productRepository;
         private IMapper _mapper;
 
-        public ProductService(IBaseRepository<Product> productRepository, IMapper mapper)
+        public ProductService(IProductRepository productRepository, IMapper mapper)
         {
             _productRepository = productRepository;
             _mapper = mapper;
@@ -44,31 +44,60 @@ namespace eCommerce.Persistence.Services
 
         public IDataResult<List<ProductDto>> GetAll()
         {
-            List<Product> products = _productRepository.GetAll().ToList();
+            List<Product> products = _productRepository.GetAll().Where(x => x.IsDeleted == false).ToList();
             List<ProductDto> productsDto = _mapper.Map<List<Product>, List<ProductDto>>(products);
             return new SuccessDataResult<List<ProductDto>>(productsDto, 200);
+        }
+
+        public IDataResult<List<ProductDto>> GetAllAsNoTrackingWithIdentityResolution()
+        {
+            List<Product> products = _productRepository.GetAllAsNoTrackingWithIdentityResolution().ToList();
+            List<ProductDto> productDtos = _mapper.Map<List<Product>, List<ProductDto>>(products);
+            return new SuccessDataResult<List<ProductDto>>(productDtos, 200);
+        }
+        public IDataResult<List<ProductWithCategoryDto>> GetAllWithCategory()
+        {
+            List<Product> products = _productRepository.GetAllWithCategory().ToList();
+            List<ProductWithCategoryDto> productWithCategoryDtos = _mapper.Map<List<Product>, List<ProductWithCategoryDto>>(products);
+            return new SuccessDataResult<List<ProductWithCategoryDto>>(productWithCategoryDtos, 200);
         }
 
         public async Task<IDataResult<ProductDto>> GetByIdAsync(long id)
         {
             Product product = await _productRepository.GetByIdAsync(id);
-            ProductDto productDto = _mapper.Map<ProductDto>(product);
-            return new SuccessDataResult< ProductDto>(productDto, 200);
+            if(!product.IsDeleted)
+            {
+                ProductDto productDto = _mapper.Map<ProductDto>(product);
+                return new SuccessDataResult<ProductDto>(productDto, 200);
+            }
+            return new ErrorDataResult<ProductDto>(new List<string> { "Product is not found" }, 400);
+           
         }
 
         public async Task<IDataResult<ProductDto>> GetSingleAsync(Expression<Func<Product, bool>> method)
         {
             Product product = await _productRepository.GetSingleAsync(method);
-            ProductDto productDto = _mapper.Map<ProductDto>(product);
-            return new SuccessDataResult<ProductDto>(productDto, 200);
+            if (!product.IsDeleted)
+            {
+                ProductDto productDto = _mapper.Map<ProductDto>(product);
+                return new SuccessDataResult<ProductDto>(productDto, 200);
+            }
+            return new ErrorDataResult<ProductDto>(new List<string> { "Product is not found" }, 400);
         }
 
         public IDataResult<List<ProductDto>> GetWhere(Expression<Func<Product, bool>> method)
         {
-            List<Product> products = _productRepository.GetWhere(method).ToList();
+            List<Product> products = _productRepository.GetWhere(method).Where(x=>x.IsDeleted==false).ToList();
             List<ProductDto> productDtos = _mapper.Map<List<Product>, List<ProductDto>>(products);
             return new SuccessDataResult<List<ProductDto>>(productDtos, 200);
 
+        }
+
+        public IDataResult<List<ProductDto>> GetWhereAsNoTrackingWithIdentityResolution(Expression<Func<Product, bool>> method)
+        {
+            List<Product> products = _productRepository.GetWhereAsNoTrackingWithIdentityResolution(method).ToList();
+            List<ProductDto> productDtos = _mapper.Map<List<Product>, List<ProductDto>>(products);
+            return new SuccessDataResult<List<ProductDto>>(productDtos, 200);
         }
 
         public async Task<IDataResult<ProductDto>> Remove(long id)

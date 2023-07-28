@@ -13,7 +13,8 @@ namespace eCommerce.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<ProductOrder> builder)
         {
-            builder.HasKey(x => new { x.OrderId, x.ProductId });
+            builder.HasKey(x => new { x.OrderId, x.ProductId,x.Id });
+            builder.Property(x => x.Id).ValueGeneratedOnAdd();
             builder.HasOne(y => y.Product)
                 .WithMany(x => x.ProductOrders)
                 .HasForeignKey(x => x.ProductId);

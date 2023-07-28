@@ -5,13 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eCommerce.Domain.DTOs.Products
+namespace eCommerce.Domain.DTOs.Categories
 {
-    public class ProductCreateDto 
+    public class CategoryDto:BaseDto
     {
         public string Name { get; set; }
-        public string Description { get; set; }
-        public decimal Price { get; set; }
-        public int Stock { get; set; }
     }
 }

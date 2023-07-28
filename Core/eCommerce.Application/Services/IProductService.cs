@@ -14,6 +14,7 @@ namespace eCommerce.Application.Services
     {
         Task<IDataResult<List<ProductCreateDto>>> AddRangeAsync(List<ProductCreateDto> models);
         IDataResult<List<ProductDto>> GetAll();
+        IDataResult<List<ProductWithCategoryDto>> GetAllWithCategory();
         Task<IDataResult<ProductDto>> GetByIdAsync(long id);
         Task<IDataResult<ProductDto>> GetSingleAsync(Expression<Func<Product, bool>> method);
         IDataResult<List<ProductDto>> GetWhere(Expression<Func<Product, bool>> method);
@@ -21,5 +22,7 @@ namespace eCommerce.Application.Services
         Task<IDataResult<ProductDto>> Remove(long id);
         Task<IDataResult<List<ProductDto>>> RemoveRange(List<int> ids);
         Task<IDataResult<ProductDto>> Update(ProductDto model);
+        public IDataResult<List<ProductDto>> GetAllAsNoTrackingWithIdentityResolution();
+        public IDataResult<List<ProductDto>> GetWhereAsNoTrackingWithIdentityResolution(Expression<Func<Product, bool>> method);
     }
 }

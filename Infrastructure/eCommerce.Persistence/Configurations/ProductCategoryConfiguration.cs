@@ -13,7 +13,8 @@ namespace eCommerce.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<ProductCategory> builder)
         {
-            builder.HasKey(x => new { x.ProductId, x.CategoryId });
+            builder.HasKey(x => new { x.ProductId, x.CategoryId,x.Id });
+            builder.Property(x => x.Id).ValueGeneratedOnAdd();
             builder.HasIndex(x => new { x.ProductId, x.CategoryId }).IsUnique();
             builder.HasOne(x => x.Product)
                 .WithMany(x => x.ProductCategories)

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -49,19 +50,25 @@ namespace eCommerce.Persistence.Repositories.Generic
         public async Task Remove(long id)
         {
             T model = await Table.FindAsync(id);
-            Table.Remove(model);
+            model.IsDeleted = true;
+            model.DeletedTime = DateTime.UtcNow;
             
         }
 
         public void Remove(T model)
         {
-            EntityEntry<T> entityEntry = Table.Remove(model);
+            model.IsDeleted = true;
+            model.DeletedTime=DateTime.UtcNow;
             
         }
 
         public void RemoveRange(List<T> datas)
         {
-            Table.RemoveRange(datas);
+            foreach (T data in datas)
+            {
+                data.IsDeleted = true;
+                data.DeletedTime = DateTime.UtcNow;
+            }
             
         }
 

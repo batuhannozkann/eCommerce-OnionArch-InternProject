@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace eCommerce.Application.Repositories
 {
-    public interface IProductRepository:IBaseRepositoryNoTracking<Product>
+    public interface ICategoryRepository:IBaseRepositoryNoTracking<Category>
     {
-        public IQueryable<Product> GetAllWithCategory();
+
     }
 }

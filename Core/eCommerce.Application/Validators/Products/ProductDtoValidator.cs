@@ -1,5 +1,4 @@
 ﻿using eCommerce.Domain.DTOs.Products;
-using eCommerce.Domain.Entities;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -9,12 +8,13 @@ using System.Threading.Tasks;
 
 namespace eCommerce.Application.Validators.Products
 {
-    public class ProductValidator : AbstractValidator<ProductCreateDto>
+    public class ProductDtoValidator : AbstractValidator<ProductDto>
     {
-        public ProductValidator()
+        public ProductDtoValidator()
         {
-            RuleFor(x => x.Name).NotEmpty().NotNull();
+            RuleFor(x=>x.Name).NotNull().NotEmpty();
             RuleFor(x => x.Price).NotEmpty().Must(x => x >= 0).WithMessage("Price must not be negative");
+            
         }
     }
 }
