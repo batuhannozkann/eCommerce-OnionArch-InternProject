@@ -1,14 +1,14 @@
-﻿using eCommerce.Domain.Entities.Common;
+﻿using eCommerce.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eCommerce.Domain.Entities
+namespace eCommerce.Domain.Identity
 {
-    public class Customer:BaseEntity
+    public class AppUser:IdentityUser
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -16,5 +16,6 @@ namespace eCommerce.Domain.Entities
         public ICollection<LikedProduct> LikedProducts { get; set; }
         public ICollection<Order> Orders { get; set; }
         public ICollection<Address> Addresses { get; set; }
+        public ICollection<Shipping> Shippings { get; set; }
     }
 }

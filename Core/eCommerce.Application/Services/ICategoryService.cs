@@ -13,9 +13,9 @@ namespace eCommerce.Application.Services
 {
     public interface ICategoryService
     {
-        Task<IDataResult<List<CategoryCreateDto>>> AddRangeAsync(List<CategoryCreateDto> models);
+        Task<IDataResult<List<CategoryDto>>> AddRangeAsync(List<CategoryCreateDto> models);
         IDataResult<List<CategoryDto>> GetAll();
-        IDataResult<List<ProductWithCategoryDto>> GetAllWithProduct();
+        IDataResult<List<CategoryWithProductsDto>> GetAllWithProduct();
         Task<IDataResult<CategoryDto>> GetByIdAsync(long id);
         Task<IDataResult<CategoryDto>> GetSingleAsync(Expression<Func<Category, bool>> method);
         IDataResult<List<CategoryDto>> GetWhere(Expression<Func<Category, bool>> method);

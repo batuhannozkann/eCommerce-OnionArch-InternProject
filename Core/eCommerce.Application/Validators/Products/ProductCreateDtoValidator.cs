@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace eCommerce.Application.Validators.Products
 {
-    public class ProductValidator : AbstractValidator<ProductCreateDto>
+    public class ProductCreateDtoValidator : AbstractValidator<ProductCreateDto>
     {
-        public ProductValidator()
+        public ProductCreateDtoValidator()
         {
             RuleFor(x => x.Name).NotEmpty().NotNull();
             RuleFor(x => x.Price).NotEmpty().Must(x => x >= 0).WithMessage("Price must not be negative");

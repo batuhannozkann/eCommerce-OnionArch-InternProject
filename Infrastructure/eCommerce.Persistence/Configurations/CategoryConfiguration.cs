@@ -14,10 +14,10 @@ namespace eCommerce.Persistence.Configurations
         public void Configure(EntityTypeBuilder<Category> builder)
         {
             builder.HasKey(x => x.Id);
+            builder.Property(x => x.IsDeleted).HasDefaultValue(false);
             builder.HasIndex(x => x.Name).IsUnique();
             builder.HasMany(x => x.ProductCategories)
                 .WithOne(x => x.Category);
-
         }
     }
 }

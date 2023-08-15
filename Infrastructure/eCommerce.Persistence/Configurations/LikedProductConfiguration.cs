@@ -13,14 +13,15 @@ namespace eCommerce.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<LikedProduct> builder)
         {
-            builder.HasKey(x => new { x.ProductId, x.CustomerId,x.Id });
+            builder.Property(x => x.IsDeleted).HasDefaultValue(false);
+            builder.HasKey(x => new { x.ProductId, x.UserId, x.Id });
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
             builder.HasOne(x => x.Product)
                 .WithMany(y => y.LikedProducts)
                 .HasForeignKey(x => x.ProductId);
-            builder.HasOne(x => x.Customer)
+            builder.HasOne(x => x.User)
                 .WithMany(y => y.LikedProducts)
-                .HasForeignKey(x => x.CustomerId);
+                .HasForeignKey(x => x.UserId);
         }
     }
 }

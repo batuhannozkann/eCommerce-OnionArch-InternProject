@@ -1,4 +1,5 @@
 ﻿using eCommerce.Domain.Entities.Common;
+using eCommerce.Domain.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace eCommerce.Domain.Entities
     {
         public long ProductId { get; set; }
         public Product Product { get; set; }
-        public long CustomerId { get; set; }
-        public Customer Customer { get; set; }
+        public string UserId { get; set; }
+        public AppUser User { get; set; }
     }
 }

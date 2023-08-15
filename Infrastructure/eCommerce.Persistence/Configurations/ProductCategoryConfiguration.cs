@@ -13,6 +13,7 @@ namespace eCommerce.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<ProductCategory> builder)
         {
+            builder.Property(x => x.IsDeleted).HasDefaultValue(false);
             builder.HasKey(x => new { x.ProductId, x.CategoryId,x.Id });
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
             builder.HasIndex(x => new { x.ProductId, x.CategoryId }).IsUnique();

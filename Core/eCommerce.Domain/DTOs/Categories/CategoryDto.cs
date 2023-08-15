@@ -9,6 +9,7 @@ namespace eCommerce.Domain.DTOs.Categories
 {
     public class CategoryDto:BaseDto
     {
+        public long Id { get; set; }
         public string Name { get; set; }
     }
 }

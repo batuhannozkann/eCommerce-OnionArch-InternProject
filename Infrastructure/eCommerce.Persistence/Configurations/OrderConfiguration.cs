@@ -13,8 +13,11 @@ namespace eCommerce.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Order> builder)
         {
+            builder.Property(x => x.IsDeleted).HasDefaultValue(false);
             builder.HasKey(x => x.Id);
-
+            builder.HasOne(x => x.Shipping)
+                .WithOne(x => x.Order).HasForeignKey<Shipping>(x => x.OrderId);
+            builder.HasIndex(x => x.ShippingId).IsUnique();
         }
     }
 }

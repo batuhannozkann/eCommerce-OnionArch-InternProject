@@ -14,7 +14,7 @@ namespace eCommerce.Application.Repositories
         Task<T> GetSingleAsync(Expression<Func<T, bool>> method);
         IQueryable<T> GetWhere(Expression<Func<T, bool>> method);
         Task<T> AddAsync(T model);
-        Task AddRangeAsync(List<T> model);
+        Task<List<T>> AddRangeAsync(List<T> model);
         Task Remove(long id);
          void Remove(T model);
          void RemoveRange(List<T> datas);

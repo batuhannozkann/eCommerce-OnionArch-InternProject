@@ -42,9 +42,12 @@ namespace eCommerce.Persistence.Repositories.Generic
             return model;
         }
 
-        public async Task AddRangeAsync(List<T> model)
+        public async Task<List<T>> AddRangeAsync(List<T> model)
+            
         {
             await Table.AddRangeAsync(model);
+            return model;
+
         }
 
         public async Task Remove(long id)
@@ -74,7 +77,8 @@ namespace eCommerce.Persistence.Repositories.Generic
 
         public void Update(T model)
         {
-            EntityEntry<T> entityEntry = Table.Update(model);
+            Table.Entry(model).State = EntityState.Modified;
+            
             
         }
         public async Task<int> SaveAsync()

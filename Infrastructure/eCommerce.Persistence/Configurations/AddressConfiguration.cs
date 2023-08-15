@@ -14,8 +14,11 @@ namespace eCommerce.Persistence.Configurations
         public void Configure(EntityTypeBuilder<Address> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasOne(x => x.Customer)
+            builder.Property(x => x.IsDeleted).HasDefaultValue(false);
+            builder.HasOne(x => x.User)
                 .WithMany(x => x.Addresses);
+            builder.HasMany(x => x.Shippings)
+                .WithOne(x => x.Address);
         }
     }
 }

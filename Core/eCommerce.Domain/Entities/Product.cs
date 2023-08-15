@@ -16,5 +16,6 @@ namespace eCommerce.Domain.Entities
         public ICollection<LikedProduct> LikedProducts { get; set; }
         public  ICollection<ProductOrder> ProductOrders { get; set; }
         public ICollection<ProductCategory> ProductCategories { get; set; }
+        public ICollection<ShippingProduct> ShippingProducts { get; set; }
     }
 }

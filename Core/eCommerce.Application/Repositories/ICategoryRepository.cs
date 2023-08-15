@@ -1,4 +1,6 @@
-﻿using eCommerce.Domain.Entities;
+﻿using eCommerce.Application.Utilities.Results;
+using eCommerce.Domain.DTOs.Categories;
+using eCommerce.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,6 @@ namespace eCommerce.Application.Repositories
 {
     public interface ICategoryRepository:IBaseRepositoryNoTracking<Category>
     {
-
+        List<Category> GetAllWithProduct();
     }
 }
