@@ -23,7 +23,7 @@ namespace eCommerce.Application.Services
         Task<IDataResult<AddressDto>> AddAsync(AddressCreateDto model);
         Task<IDataResult<AddressDto>> Remove(long id);
         Task<IDataResult<List<AddressDto>>> RemoveRange(List<int> ids);
-        Task<IDataResult<AddressDto>> Update(AddressDto model);
+        Task<IDataResult<AddressDto>> Update(AddressUpdateDto model);
         public IDataResult<List<AddressDto>> GetAllAsNoTrackingWithIdentityResolution();
         public IDataResult<List<AddressDto>> GetWhereAsNoTrackingWithIdentityResolution(Expression<Func<Address, bool>> method);
     }

@@ -22,5 +22,9 @@ namespace eCommerce.Persistence.Repositories
         {
             return _context.Addresses.Include(x => x.User).AsQueryable();
         }
+        public async Task<Address> GetByIdAsync(long id)
+        {
+            return await _context.Addresses.Where(x => x.Id == id).Include(x => x.User).FirstOrDefaultAsync();
+        }
     }
 }

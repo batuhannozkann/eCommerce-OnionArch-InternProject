@@ -55,6 +55,7 @@ namespace eCommerce.Application.Mapping
             CreateMap<Shipping,ShippingDto>().ReverseMap();
             CreateMap<ShippingCompanyCreateDto,ShippingCompany>().ReverseMap();
             CreateMap<ShippingCompanyDto, ShippingCompany>().ReverseMap();
+            CreateMap<AppUser, UserLikedProductsDto>().ReverseMap();
         }
     }
 }

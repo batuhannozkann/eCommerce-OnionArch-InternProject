@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using com.sun.jdi.request;
 using eCommerce.Application.Repositories;
 using eCommerce.Application.Services;
 using eCommerce.Application.Utilities.Results;
@@ -13,18 +12,7 @@ using eCommerce.Domain.DTOs.Users;
 using eCommerce.Domain.Entities;
 using eCommerce.Domain.Identity;
 using eCommerce.Infrastructure.Utilities.Results;
-using javax.jws;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
 using System.Xml.Linq;
 
 namespace eCommerce.Persistence.Services
@@ -111,8 +99,6 @@ namespace eCommerce.Persistence.Services
         {
             string dolar = "https://www.tcmb.gov.tr/kurlar/today.xml";
             XDocument documents = XDocument.Load(dolar);
-            XmlDocument xmlDocument = new();
-            xmlDocument.Load(dolar);
             List<MoneyUnit> moneyUnits = new();
             foreach(XElement document in documents.Descendants("Currency"))
             {
@@ -124,15 +110,13 @@ namespace eCommerce.Persistence.Services
                     ForexBuying=document.Element("ForexBuying").Value,
                     ForexSelling=document.Element("ForexSelling").Value,
                     CurrencyName = document.Element("CurrencyName").Value
-
+                    //vsdl
 
 
 
 
                 }) ;
             }
-            
-
             return moneyUnits;
         }
     }

@@ -105,9 +105,15 @@ namespace eCommerce.Persistence.Services
             throw new NotImplementedException();
         }
 
-        public Task<IDataResult<CategoryDto>> Update(CategoryDto model)
+        public async Task<IDataResult<CategoryDto>> Update(CategoryDto model)
         {
-            throw new NotImplementedException();
+            Category category = await _categoryRepository.GetByIdAsync(model.Id);
+            if (category == null) return new ErrorDataResult<CategoryDto>("Category has not found", 400);
+            category.Name = model.Name ?? category.Name;
+            await _unitOfWork.CommitAsync();
+            CategoryDto categoryDto = _mapper.Map<CategoryDto>(category);
+            return new SuccessDataResult<CategoryDto>(categoryDto, 200);
+            
         }
     }
 }

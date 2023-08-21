@@ -43,13 +43,13 @@ namespace eCommerce.WebAPI.Controllers
             var data = productService.GetAllWithCategory();
             return Ok(data);
         }
-        [HttpPost("[action]")]
+        [HttpDelete]
         public async Task<IActionResult> Remove(RemoveProductDto removeProductDto)
         {
             var data = await productService.Remove(removeProductDto.Id);
             return Ok(data);
         }
-        [HttpPost("[action]")]
+        [HttpPut]
         public async Task<IActionResult> UpdateAsync(ProductUpdateDto productDto)
         {
             var data =  await productService.Update(productDto);

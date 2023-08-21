@@ -134,9 +134,14 @@ namespace eCommerce.Persistence.Services
             throw new NotImplementedException();
         }
 
-        public Task<IDataResult<ShippingDto>> Remove(long id)
+        public async Task<IDataResult<ShippingDto>> RemoveAsync(long id)
         {
-            throw new NotImplementedException();
+            Shipping shipping =await _shippingRepository.GetByIdAsync(id);
+            if (shipping == null) return new ErrorDataResult<ShippingDto>("Shipping has not found", 400);
+            _shippingRepository.Remove(shipping);
+            await _unitOfWork.CommitAsync();
+            ShippingDto removedShippingDto = _mapper.Map<ShippingDto>(shipping);
+            return new SuccessDataResult<ShippingDto>(removedShippingDto, 200);
         }
 
         public Task<IDataResult<List<ShippingDto>>> RemoveRange(List<int> ids)

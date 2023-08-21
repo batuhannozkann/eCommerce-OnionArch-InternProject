@@ -46,5 +46,20 @@ namespace eCommerce.WebAPI.Controllers
         {
             return Ok( _userService.GetAllRoles());
         }
+        [HttpDelete]
+        public async Task<IActionResult> RemoveUser(string userId) 
+        {
+            return Ok(await _userService.RemoveUser(userId));
+        }
+        [HttpPost("[action]")]
+        public async Task<IActionResult> AddLikedProduct(AddLikedProductDto addLikedProductDto)
+        {
+            return Ok(await _userService.AddLikedProductAsync(addLikedProductDto));
+        }
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetLikedProducts(string userId)
+        {
+            return Ok(await _userService.GetUserLikedProductsAsync(userId));
+        }
     }
 }

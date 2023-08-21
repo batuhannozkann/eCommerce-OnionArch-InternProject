@@ -24,7 +24,7 @@ namespace eCommerce.WebAPI.Controllers
         {
             return Ok(_shippingService.GetAll());
         }
-        [HttpPost("[action]")]
+        [HttpPut]
         public async Task<IActionResult> UpdateShipping(ShippingUpdateDto shippingUpdateDto)
         {
             return Ok(await _shippingService.Update(shippingUpdateDto));
@@ -33,6 +33,12 @@ namespace eCommerce.WebAPI.Controllers
         public IActionResult GetShippingByTrackingNumber(string trackingNumber)
         {
             return Ok(_shippingService.GetShippingByTrackingNumber(trackingNumber));
+        }
+        [HttpDelete]
+
+        public async Task<IActionResult> RemoveShipping(long id)
+        {
+            return Ok(await _shippingService.RemoveAsync(id));
         }
     }
 }

@@ -18,6 +18,9 @@ namespace eCommerce.Application.Services
         Task<IDataResult<string>> CreateRoleAsync(string role);
         Task<IDataResult<UserWithRoleDto>> CreateUserRolesAsync(CreateUserRoleDto createUserRoleDto);
         IDataResult<List<AppRole>> GetAllRoles();
+        Task<IDataResult<UserDto>> RemoveUser(string userId);
+        Task<IDataResult<LikedProductDto>> AddLikedProductAsync(AddLikedProductDto addLikedProductDto);
+        Task<IDataResult<UserLikedProductsDto>> GetUserLikedProductsAsync(string userId);
 
     }
 }

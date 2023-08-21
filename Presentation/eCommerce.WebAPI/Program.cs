@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
@@ -32,7 +33,10 @@ namespace eCommerce.WebAPI
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
-                    options.TokenValidationParameters = new()
+                    options.RequireHttpsMetadata = false;
+                    options.SaveToken = true;
+                    var tokenOptions = builder.Configuration.GetSection("Accesstoken").Get<CustomTokenOption>();
+                    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
                     {
 
                         ValidateAudience = true,
@@ -41,9 +45,9 @@ namespace eCommerce.WebAPI
                         ValidateIssuerSigningKey = true,
 
 
-                        ValidAudience = builder.Configuration["Token:Audience"],
-                        ValidIssuer = builder.Configuration["Token:Issuer"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:SignKey"]))
+                        ValidAudience = tokenOptions.Audience[0],
+                        ValidIssuer = tokenOptions.Issuer,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenOptions.SecurityKey))
                     };
                 });
             builder.Services.Configure<IdentityOptions>(options => {
@@ -51,7 +55,38 @@ namespace eCommerce.WebAPI
                 options.User.RequireUniqueEmail = true;
                 options.SignIn.RequireConfirmedEmail = true;
             });
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+                {
+                    Title = "API",
+                    Version = "v2",
+                    Description = "Your Api Description"
+                });
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme (Example: 'Bearer 12345abcdef')",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    Array.Empty<string>()
+                }
+            });
+            });
+
             builder.Services.AddPersistenceService(builder.Configuration);
             builder.Services.Configure<ConnectionString>(builder.Configuration.GetSection("ConnectionStrings"));
             builder.Services.Configure<CustomTokenOption>(builder.Configuration.GetSection("AccessToken"));
@@ -67,7 +102,7 @@ namespace eCommerce.WebAPI
             }
             
             app.UseHttpsRedirection();
-            app.UseMiddleware<CustomMiddleware>();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();
             

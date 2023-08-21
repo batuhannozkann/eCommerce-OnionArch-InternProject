@@ -20,7 +20,7 @@ namespace eCommerce.Application.Services
         Task<IDataResult<ShippingDto>> GetSingleAsync(Expression<Func<Shipping, bool>> method);
         IDataResult<List<ShippingDto>> GetWhere(Expression<Func<Shipping, bool>> method);
         Task<IDataResult<ShippingDto>> AddAsync(ShippingCreateDto model);
-        Task<IDataResult<ShippingDto>> Remove(long id);
+        Task<IDataResult<ShippingDto>> RemoveAsync(long id);
         Task<IDataResult<List<ShippingDto>>> RemoveRange(List<int> ids);
         Task<IDataResult<ShippingDto>> Update(ShippingUpdateDto model);
         IDataResult<ShippingDto> GetShippingByTrackingNumber(string trackingNumber);

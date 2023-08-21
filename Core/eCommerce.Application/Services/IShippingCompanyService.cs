@@ -17,13 +17,13 @@ namespace eCommerce.Application.Services
         IDataResult<List<ShippingCompanyDto>> GetAll();
         IDataResult<List<ShippingCompanyDto>> GetAllWithProduct();
         Task<IDataResult<ShippingCompanyDto>> GetByIdAsync(long id);
-        Task<IDataResult<ShippingCompanyDto>> GetSingleAsync(Expression<Func<Address, bool>> method);
-        IDataResult<List<ShippingCompanyDto>> GetWhere(Expression<Func<Address, bool>> method);
+        Task<IDataResult<ShippingCompanyDto>> GetSingleAsync(Expression<Func<ShippingCompany, bool>> method);
+        IDataResult<List<ShippingCompanyDto>> GetWhere(Expression<Func<ShippingCompany, bool>> method);
         Task<IDataResult<ShippingCompanyDto>> AddAsync(ShippingCompanyCreateDto model);
         Task<IDataResult<ShippingCompanyDto>> Remove(long id);
         Task<IDataResult<List<ShippingCompanyDto>>> RemoveRange(List<int> ids);
-        Task<IDataResult<ShippingCompanyDto>> Update(AddressDto model);
+        Task<IDataResult<ShippingCompanyDto>> Update(ShippingCompanyDto model);
         public IDataResult<List<ShippingCompanyDto>> GetAllAsNoTrackingWithIdentityResolution();
-        public IDataResult<List<ShippingCompanyDto>> GetWhereAsNoTrackingWithIdentityResolution(Expression<Func<Address, bool>> method);
+        public IDataResult<List<ShippingCompanyDto>> GetWhereAsNoTrackingWithIdentityResolution(Expression<Func<ShippingCompany, bool>> method);
     }
 }

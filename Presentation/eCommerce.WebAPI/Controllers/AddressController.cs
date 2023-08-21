@@ -26,5 +26,15 @@ namespace eCommerce.WebAPI.Controllers
         {
             return Ok(_addressService.GetAll());
         }
+        [HttpPut]
+        public async Task<IActionResult> Update(AddressUpdateDto addressUpdateDto)
+        {
+            return Ok(await _addressService.Update(addressUpdateDto));
+        }
+        [HttpDelete]
+        public async Task<IActionResult> Delete(long id)
+        {
+            return Ok(await _addressService.Remove(id));
+        }
     }
 }

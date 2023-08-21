@@ -25,5 +25,15 @@ namespace eCommerce.WebAPI.Controllers
         {
             return Ok(_shippingCompanyService.GetAll());
         }
+        [HttpDelete]
+        public async Task<IActionResult> DeleteCompany(long id)
+        {
+            return Ok(await _shippingCompanyService.Remove(id));
+        }
+        [HttpPut]
+        public async Task<IActionResult> UpdateCompany(ShippingCompanyDto shippingCompanyDto)
+        {
+            return Ok(await _shippingCompanyService.Update(shippingCompanyDto));
+        }
     }
 }

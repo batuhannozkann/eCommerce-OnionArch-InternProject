@@ -119,9 +119,31 @@ namespace eCommerce.Persistence.Services
             throw new NotImplementedException();
         }
 
-        public Task<IDataResult<OrderDto>> Update(OrderDto model)
+        public async Task<IDataResult<OrderDto>> Update(OrderDto model)
         {
-            throw new NotImplementedException();
+            Order order = await _orderRepository.GetByIdAsync(model.Id);
+            List<ProductOrder> productOrders = new();
+            if (order == null) return new ErrorDataResult<OrderDto>("Order has not found", 400);
+            AppUser appUser = _mapper.Map<AppUser>(model.User);
+            order.User = appUser ?? order.User;
+            Address address = _mapper.Map<Address>(model.Address);
+            order.Address = address ?? order.Address;
+            foreach(var i in model.Products)
+            {
+                productOrders.Add(new ProductOrder { ProductId = i.Product.Id, OrderId = model.Id });
+                order.Price += productRepository.GetByIdAsync(i.Product.Id).Result.Price;
+            }
+            if (productOrders != null)
+            {
+                order.ProductOrders = productOrders ?? order.ProductOrders;
+                order.ProductCount = productOrders.Select(x => x.ProductQuantity).Sum();
+                order.Tax = order.Price * Convert.ToDecimal(Tax.KDV);
+                order.TotalPrice = order.Price + order.Tax;
+            }
+            _orderRepository.Update(order);
+            _unitOfWork.CommitAsync();
+            OrderDto orderDto = _mapper.Map<OrderDto>(order);
+            return new SuccessDataResult<OrderDto>(orderDto, 200);
         }
 
     }

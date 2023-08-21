@@ -25,10 +25,15 @@ namespace eCommerce.WebAPI.Controllers
         {
             return Ok( _orderService.GetAll());
         }
-        [HttpPost("[action]")]
+        [HttpDelete]
         public async Task<IActionResult> RemoveOrder(long id)
         {
             return Ok(await _orderService.Remove(id));
+        }
+        [HttpPut]
+        public async Task<IActionResult> UpdateOrder(OrderDto orderDto)
+        { 
+            return Ok(await _orderService.Update(orderDto));
         }
     }
 }

@@ -88,9 +88,14 @@ namespace eCommerce.Persistence.Services
             throw new NotImplementedException();
         }
 
-        public Task<IDataResult<AddressDto>> Remove(long id)
+        public async Task<IDataResult<AddressDto>> Remove(long id)
         {
-            throw new NotImplementedException();
+            Address address = await _addressRepository.GetByIdAsync(id);
+            if (address == null) return new ErrorDataResult<AddressDto>("Address has not found", 400);
+            _addressRepository.Remove(address);
+            await _unitOfWork.CommitAsync();
+            AddressDto addressDto = _mapper.Map<AddressDto>(address);
+            return new SuccessDataResult<AddressDto>(addressDto, 200);
         }
 
         public Task<IDataResult<List<AddressDto>>> RemoveRange(List<int> ids)
@@ -98,9 +103,20 @@ namespace eCommerce.Persistence.Services
             throw new NotImplementedException();
         }
 
-        public Task<IDataResult<AddressDto>> Update(AddressDto model)
+        public async Task<IDataResult<AddressDto>> Update(AddressUpdateDto model)
         {
-            throw new NotImplementedException();
+            Address address = await _addressRepository.GetByIdAsync(model.Id);
+            address.FullAddress = model.FullAddress ?? address.FullAddress;
+            address.Description = model.Description ?? address.Description;
+            address.District=model.District ?? address.District;
+            address.City=model.City ?? address.City;
+            address.Country=model.Country ?? address.Country;
+            AppUser appUser = await _userManager.FindByIdAsync(model.UserId);
+            address.User = appUser ?? address.User;
+            _addressRepository.Update(address);
+            await _unitOfWork.CommitAsync();
+            AddressDto addressDto = _mapper.Map<AddressDto>(address);
+            return new SuccessDataResult<AddressDto>(addressDto, 200);
         }
     }
 }

@@ -1,17 +1,23 @@
 ﻿using eCommerce.Application.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eCommerce.WebAPI.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]")]
     [ApiController]
+    
     public class AdminController : ControllerBase
     {
         private IAdminService _adminService;
         public AdminController(IAdminService adminService)
         {
             _adminService = adminService;
+            
         }
         [HttpGet("[action]")]
         public IActionResult GetAllProduct()
@@ -21,7 +27,7 @@ namespace eCommerce.WebAPI.Controllers
         [HttpGet("[action]")]
         public IActionResult GetAllCategory()
         {
-            return Ok(_adminService.GetAllCategory());
+            return Ok(HttpContext.Request.Headers);
         }
         [HttpGet("[action]")]
         public IActionResult GetAllOrder()

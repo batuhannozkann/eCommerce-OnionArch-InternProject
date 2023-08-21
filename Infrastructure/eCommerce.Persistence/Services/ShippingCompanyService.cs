@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using com.sun.xml.@internal.bind.v2.model.core;
 using eCommerce.Application.Repositories;
 using eCommerce.Application.Services;
 using eCommerce.Application.UnitOfWork;
@@ -66,24 +67,31 @@ namespace eCommerce.Persistence.Services
             throw new NotImplementedException();
         }
 
-        public Task<IDataResult<ShippingCompanyDto>> GetSingleAsync(Expression<Func<Address, bool>> method)
+        public Task<IDataResult<ShippingCompanyDto>> GetSingleAsync(Expression<Func<ShippingCompany, bool>> method)
         {
             throw new NotImplementedException();
         }
 
-        public IDataResult<List<ShippingCompanyDto>> GetWhere(Expression<Func<Address, bool>> method)
+        public IDataResult<List<ShippingCompanyDto>> GetWhere(Expression<Func<ShippingCompany, bool>> method)
         {
             throw new NotImplementedException();
         }
 
-        public IDataResult<List<ShippingCompanyDto>> GetWhereAsNoTrackingWithIdentityResolution(Expression<Func<Address, bool>> method)
+        public IDataResult<List<ShippingCompanyDto>> GetWhereAsNoTrackingWithIdentityResolution(Expression<Func<ShippingCompany, bool>> method)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IDataResult<ShippingCompanyDto>> Remove(long id)
+        public async Task<IDataResult<ShippingCompanyDto>> Remove(long id)
         {
-            throw new NotImplementedException();
+            ShippingCompany shippingCompany = await _shippingCompanyRepository.GetByIdAsync(id);
+            if (shippingCompany == null) return new ErrorDataResult<ShippingCompanyDto>("Shipping company has not found", 400);
+            await _shippingCompanyRepository.Remove(id);
+            await _unitOfWork.CommitAsync();
+            ShippingCompanyDto shippingCompanyDto = _mapper.Map<ShippingCompanyDto>(shippingCompany);
+            return new SuccessDataResult<ShippingCompanyDto>(shippingCompanyDto, 200);
+
+
         }
 
         public Task<IDataResult<List<ShippingCompanyDto>>> RemoveRange(List<int> ids)
@@ -91,9 +99,19 @@ namespace eCommerce.Persistence.Services
             throw new NotImplementedException();
         }
 
-        public Task<IDataResult<ShippingCompanyDto>> Update(AddressDto model)
+        public async Task<IDataResult<ShippingCompanyDto>> Update(ShippingCompanyDto model)
         {
-            throw new NotImplementedException();
+            ShippingCompany shippingCompany = await _shippingCompanyRepository.GetByIdAsync(model.Id);
+            if (shippingCompany == null) return new ErrorDataResult<ShippingCompanyDto>("Shipping company has not found", 400);
+            shippingCompany.Address = model.Address ?? shippingCompany.Address;
+            shippingCompany.Phone=model.Phone??shippingCompany.Phone;
+            shippingCompany.Email = model.Email ?? shippingCompany.Email;
+            shippingCompany.Code=model.Code??shippingCompany.Code;
+            shippingCompany.Description=model.Description?? shippingCompany.Description;
+            shippingCompany.Name = model.Name ?? shippingCompany.Name;
+            shippingCompany.WebSite = model.WebSite ?? shippingCompany.WebSite;
+            ShippingCompanyDto shippingCompanyDto = _mapper.Map<ShippingCompanyDto>(shippingCompany);
+            return new SuccessDataResult<ShippingCompanyDto>(shippingCompanyDto, 200);
         }
     }
 }
